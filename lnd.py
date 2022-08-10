@@ -1,3 +1,4 @@
+from cachetools import cached, LRUCache
 from requests import request
 from base64 import b64decode
 from json import loads, dumps
@@ -21,6 +22,7 @@ class Lnd:
         invoice["r_hash"] = b64decode(invoice["r_hash"]).hex()
         return invoice
     
+    @cached(cache=LRUCache(maxsize=100))
     def decode_invoice(self, invoice: str) -> dict:
         return self.call("GET", f"/v1/payreq/{invoice}")
     
