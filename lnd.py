@@ -43,8 +43,11 @@ class Lnd:
             elif (status == "SUCCEEDED"):
                 return data
 
-    def lookup_invoice(self, payment_hash: str):
+    def lookup_invoice(self, payment_hash: str) -> dict:
         return self.call("GET", f"/v1/invoice/{payment_hash}")
     
     def invoice_subscribe(self) -> object:
         return self.call("GET", "/v1/invoices/subscribe", stream=True)
+
+    def channel_balance(self) -> dict:
+        return self.call("GET", "/v1/balance/channels")
